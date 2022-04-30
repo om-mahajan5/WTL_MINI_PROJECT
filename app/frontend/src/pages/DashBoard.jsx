@@ -56,7 +56,7 @@ function GroupContainer(props){
         <div className={styles.groupContainer}>
                 
                 {groups.map((item)=>{
-                    return (<GroupComponent id={item['id']} name={item['title32q1   BNM,']} />)
+                    return (<GroupComponent id={item['id']} name={item['title']} />)
                 })}
 
             </div>
