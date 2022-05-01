@@ -15,7 +15,7 @@ class get_user_details(Resource):
         user_info = get_user_info(user_uid=user_uid, user_name=user_name)
         print(user_info)
         user_details.update(user_info)
-        user_details.update({"NoticeBoards": get_user_noticeboards(user_uid=user_uid)})
+        user_details.update({"noticeBoards": get_user_noticeboards(user_uid=user_uid)})
         # print(get_user_info(user_uid=user_uid,user_name=user_name))
         # print(get_user_noticeboards(user_uid=user_uid))
         return user_details

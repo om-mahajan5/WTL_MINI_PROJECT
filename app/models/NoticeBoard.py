@@ -17,9 +17,8 @@ class NoticeBoard(db.Model):
 
 class NoticeBoardSchema(ma.Schema):
     class Meta:
-        fields = ("nbid", "name", "timecreated")
+        fields = ("nbid", "name", "timecreated","uid")
         model = NoticeBoard
 
 
 noticeboard_schema = NoticeBoardSchema()
-noticeboards_schema = NoticeBoardSchema(many=True)

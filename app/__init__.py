@@ -29,7 +29,9 @@ def create_app(test_config=None):
     api.add_resource(get_notice_list, "/api/get-notices")
     api.add_resource(get_user_details, "/api/user")
     api.add_resource(create_noticeboard, "/api/create-noticeboard")
-
+    api.add_resource(join_noticeboard_api, "/api/join-noticeboard")
+    api.add_resource(leave_noticeboard_api,"/api/leave-noticeboard")
+    api.add_resource(delete_notice,"/api/delete-notice")
     @app.route("/")
     def root():
         return send_from_directory(app.static_folder, "index.html")
