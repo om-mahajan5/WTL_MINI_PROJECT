@@ -46,12 +46,10 @@ const Notices = ({ notice }) => {
             <Grid container sx={{ flexGrow: 1 }}>
                 <List sx={{ flexGrow: 1 }}>
                     <Stack spacing={2}>
-
-                        <Card color="error">
+                        <Card>
                             <CardHeader title={notice.name} />
                             <CardContent>
-
-                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                <Typography color="text.secondary" >
                                     NoticeBoard ID is {notice.nbid}
                                 </Typography>
                             </CardContent>

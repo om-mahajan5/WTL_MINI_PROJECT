@@ -19,10 +19,11 @@ function App() {
   })
 
   return (
-    <div>
+    <div style={{ margin: "0" }}>
       {
-        true ?
         // userLoggedin ?
+        // false ?
+        true ?
           <UserContext.Provider value={{ userDetails, setUserDetails }} >
             <DashBoard />
           </UserContext.Provider>
