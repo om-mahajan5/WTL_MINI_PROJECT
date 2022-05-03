@@ -1,1 +1,1 @@
-web: flask run --port 8000
+web: gunicorn "app.app:create_app()"
