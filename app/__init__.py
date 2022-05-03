@@ -35,7 +35,7 @@ def create_app(test_config=None):
 
     @app.errorhandler(404)
     def error(e):
-        return "send_from_directory(app.static_folder, "index.html"),404"
+        return 'send_from_directory(app.static_folder, "index.html"),404'
 
     @app.route("/")
     def root():
