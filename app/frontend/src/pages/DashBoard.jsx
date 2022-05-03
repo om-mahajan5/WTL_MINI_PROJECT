@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { DataContext, UserContext } from '../DataContext';
 import axios from 'axios';
 import SignOutButton from './SignOut';
-import { AppBar, Box, Toolbar, Typography, Grid, Container, Avatar, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Snackbar, Alert } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography, Grid, Container, Avatar, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Snackbar, Alert, MenuItem, Modal, CardHeader, CardContent, Card, Divider, Menu, ListItemIcon, Popover } from '@mui/material';
 import SideBar from './SideBar';
 import Notices from './Notices';
 import LandingPage from './LandingPage';
@@ -13,7 +13,7 @@ function DashBoard() {
 
     const { userDetails, setUserDetails } = useContext(UserContext);
     const [userData, setUserData] = useState(undefined)
-
+    const [userModal, setUserModal] = useState(false)
     // const userDetails = {
     //     "user": { "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2" }
     // }
@@ -66,7 +66,20 @@ function DashBoard() {
 
 
     return (
-        <DataContext.Provider value={{  setSnackBar, notices, setNotices, userData, setUserData, currentlySelectedNoticeBoard, setCurrentlySelectedNoticeBoard, urlParams }}>
+        <DataContext.Provider value={{ setSnackBar, notices, setNotices, userData, setUserData, currentlySelectedNoticeBoard, setCurrentlySelectedNoticeBoard, urlParams }}>
+            <Popover
+                id="account-Popover"
+                open={userModal}
+                onClose={() => setUserModal(false)}
+                onClick={() => setUserModal(false)}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                // anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+                <Box>
+                    <Avatar />
+                </Box>
+            </Popover>
+
             <Dialog open={joinNoticeBoardState}>
                 <DialogTitle>
                     Do you want to join this noticeBoard?
@@ -81,23 +94,25 @@ function DashBoard() {
                     <Button onClick={() => setJoinNoticeBoardState(false)}> Cancel</Button>
                 </DialogActions>
             </Dialog>
+            <AppBar position='sticky'>
+                <Toolbar >
+                    <Typography color='inhert' variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        Online Dashboard
+                    </Typography>
+                    <MenuItem onClick={() => setUserModal(true)}>
+                        <Avatar src={userDetails.photoURL} />
+                    </MenuItem>
+                    {/* {userData ? <Typography variant='h5' >{userData.name}</Typography> : "LOGIN ERROR"} */}
+                    <SignOutButton />
+                </Toolbar>
+            </AppBar>
             <Box sx={{ flexGrow: 1 }}  >
-                <AppBar position='static'>
-                    <Toolbar >
-                        <Typography color='inhert' variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            Online Dashboard
-                        </Typography>
-                        <Avatar src={userDetails.PhotoUrl} />
-                        {userData ? <Typography variant='h5' >{userData.name}</Typography> : "LOGIN ERROR"}
-                        <SignOutButton />
-                    </Toolbar>
-                </AppBar>
-                <Container>
+                <Container maxWidth="xl">
                     <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
-                        <Grid item xs={3}>
+                        <Grid item xs={4} md={3}>
                             {userData ? <SideBar userData={userData} /> : "LOGIN ERROR"}
                         </Grid>
-                        <Grid item sx={{ flexGrow: 1 }}>
+                        <Grid item xs={4} md={9} sx={{ flexGrow: 1 }}>
                             {currentlySelectedNoticeBoard == 'home' ? <LandingPage /> : userData ? <Notices notice={userData.noticeBoards.filter(noticeBoard => noticeBoard.nbid == currentlySelectedNoticeBoard)[0]} /> : "LOGIN ERROR"}
                         </Grid>
                     </Grid>
@@ -110,9 +125,6 @@ function DashBoard() {
             </Box >
         </DataContext.Provider>
     )
-
-
-
 }
 
 export default DashBoard

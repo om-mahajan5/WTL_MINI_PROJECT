@@ -43,8 +43,6 @@ const Notices = ({ notice }) => {
     )
 
     return (
-        <Grid item xs={12}>
-            <Grid container sx={{ flexGrow: 1 }}>
                 <List sx={{ flexGrow: 1 }}>
                     <Stack spacing={2}>
                         <Card>
@@ -79,14 +77,12 @@ const Notices = ({ notice }) => {
                         {
                             notices.map(
                                 (notice) => {
-                                    return <Notice notice={notice} />
+                                    return <Notice notice={notice} key={notice}/>
                                 }
                             )
                         }
                     </Stack>
                 </List>
-            </Grid>
-        </Grid>
     )
 }
 

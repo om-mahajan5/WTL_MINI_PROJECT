@@ -5,7 +5,7 @@ from .utils.sqlalchemy_object import db, ma
 from flask_restful import Api
 from .utils.database_url import url
 from .api import *
-
+from flask_cors import CORS
 
 def create_app(test_config=None):
     app = Flask(
@@ -14,6 +14,7 @@ def create_app(test_config=None):
         static_url_path="",
         static_folder="frontend/build",
     )
+    CORS(app)
     api = Api(app)
     ma.init_app(app)
     if test_config == None:

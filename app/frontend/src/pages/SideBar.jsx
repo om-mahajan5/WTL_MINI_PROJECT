@@ -25,8 +25,8 @@ const SideBarListItem = ({ noticeBoard, userUid }) => {
     const { currentlySelectedNoticeBoard, setCurrentlySelectedNoticeBoard } = useContext(DataContext)
 
     return (
-        <ListItem disablePadding>
-            <ListItemButton onClick={() => { setCurrentlySelectedNoticeBoard(noticeBoard.nbid) }} selected={currentlySelectedNoticeBoard == noticeBoard.nbid}>
+        <ListItem >
+            <ListItemButton sx={{borderRadius:'20px'}} onClick={() => { setCurrentlySelectedNoticeBoard(noticeBoard.nbid) }} selected={currentlySelectedNoticeBoard == noticeBoard.nbid}>
                 <ListItemIcon>
                     {noticeBoard.name == 'home' ? <HomeIcon /> : <ArticleIcon />}
                 </ListItemIcon>
