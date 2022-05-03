@@ -7,6 +7,8 @@ import { AppBar, Box, Toolbar, Typography, Grid, Container, Avatar, Dialog, Dial
 import SideBar from './SideBar';
 import Notices from './Notices';
 import LandingPage from './LandingPage';
+import hostUrl from './utils/hostUrl'
+
 function DashBoard() {
 
     const { userDetails, setUserDetails } = useContext(UserContext);
@@ -53,8 +55,8 @@ function DashBoard() {
     useEffect(
         () => {
 
-            console.log(userDetails);
-            axios.get(`http://localhost:5000/api/user?uid=${userDetails.uid}`)
+            console.log(hostUrl);
+            axios.get(`${hostUrl}/api/user?uid=${userDetails.uid}`)
                 .then((response) => {
                     console.log("Fetched UserData", userDetails.uid, response.data);
                     setUserData(response.data);

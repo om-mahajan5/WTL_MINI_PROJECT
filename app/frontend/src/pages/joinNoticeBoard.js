@@ -1,8 +1,9 @@
 import axios from "axios"
+import hostUrl from './utils/hostUrl'
 
 const joinNoticeBoard = (uid, nbid) => {
     axios.post(
-        "http://localhost:5000/api/join-noticeboard",
+        `${hostUrl}/api/join-noticeboard`,
         {
             uid: uid,
             nbid: nbid

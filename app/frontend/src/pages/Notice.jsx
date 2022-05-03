@@ -5,12 +5,13 @@ import axios from "axios";
 import LinkIcon from '@mui/icons-material/Link';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { DataContext } from "../DataContext";
+import hostUrl from './utils/hostUrl'
 
 const Notice = (props) => {
-    const {currentlySelectedNoticeBoard} = useContext(DataContext)
+    const { currentlySelectedNoticeBoard, userData } = useContext(DataContext)
     const deleteNotice = (nid) => {
         axios.post(
-            "http://localhost:5000/api/delete-notice",
+            `${hostUrl}/api/delete-notice`,
             {
                 nid: nid
             }
@@ -24,11 +25,13 @@ const Notice = (props) => {
                 {props.notice.body}
             </CardContent>
             <CardActions>
-                <Tooltip title="delete">
-                    <IconButton color="error" onClick={() => deleteNotice(props.notice.nid)}>
-                        <DeleteIcon />
-                    </IconButton>
-                </Tooltip>
+                {userData.uid == props.notice.uid ?
+                    < Tooltip title="delete">
+                        <IconButton color="error" onClick={() => deleteNotice(props.notice.nid)}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                    : null}
                 <Tooltip title="share link">
                     <IconButton color="primary" aria-label="add" onClick={() => navigator.clipboard.writeText(`${window.location.origin}?nbid=${currentlySelectedNoticeBoard}#${props.notice.nid}`)}>
                         <LinkIcon />
@@ -40,7 +43,7 @@ const Notice = (props) => {
                     </IconButton>
                 </Tooltip>
             </CardActions>
-        </Card>
+        </Card >
     )
 }
 

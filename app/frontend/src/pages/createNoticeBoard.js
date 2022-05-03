@@ -1,9 +1,9 @@
 import axios from "axios";
 import getUserData from "./getUserData";
-
+import hostUrl from './utils/hostUrl'
 function createNoticeBoard(uid, name) {
     axios.post(
-        "http://localhost:5000/api/create-noticeboard",
+        `${hostUrl}/api/create-noticeboard`,
         {
             uid: uid,
             name: name

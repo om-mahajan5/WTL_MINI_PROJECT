@@ -2,6 +2,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, Stack, TextField } 
 import axios from "axios";
 import { useContext } from "react";
 import { UserContext } from "../DataContext";
+import hostUrl from './utils/hostUrl'
 
 const CreateNoticeCard = ({ nbid, uid, getNotices }) => {
 
@@ -13,7 +14,7 @@ const CreateNoticeCard = ({ nbid, uid, getNotices }) => {
 
 
     function createNotice(nbid, uid) {
-        axios.post(`http://localhost:5000/api/create-notice`, {
+        axios.post(`${hostUrl}/api/create-notice`, {
             nbid: nbid,
             uid: uid,
             title: newNotice.title,

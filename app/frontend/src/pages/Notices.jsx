@@ -7,6 +7,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import LinkIcon from '@mui/icons-material/Link';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import CreateNoticeCard from "./CreateNoticeCard";
+import hostUrl from './utils/hostUrl'
+
 const Notices = ({ notice }) => {
     const { setSnackBar,currentlySelectedNoticeBoard, userData } = useContext(DataContext)
     const [notices, setNotices] = useState([])
@@ -15,7 +17,7 @@ const Notices = ({ notice }) => {
 
     const leaveNoticeBoard = (uid, nbid) => {
         axios.post(
-            "http://localhost:5000/api/leave-noticeboard",
+            `${hostUrl}/api/leave-noticeboard`,
             {
                 uid: uid,
                 nbid: nbid
@@ -26,7 +28,7 @@ const Notices = ({ notice }) => {
     }
 
     function getNotices(nbid) {
-        axios.get(`http://localhost:5000/api/get-notices?nbid=${nbid}`).then((res) => {
+        axios.get(`${hostUrl}/api/get-notices?nbid=${nbid}`).then((res) => {
             console.log(res.data);
             setNotices(res.data)
         })
