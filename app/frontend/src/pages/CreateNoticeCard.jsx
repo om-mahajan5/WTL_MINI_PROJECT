@@ -1,7 +1,11 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Stack, TextField } from "@mui/material"
 import axios from "axios";
+import { useContext } from "react";
+import { UserContext } from "../DataContext";
 
 const CreateNoticeCard = ({ nbid, uid, getNotices }) => {
+
+    const {setSnackBar} = useContext(UserContext)
     const newNotice = {
         title: null,
         body: null
@@ -16,6 +20,7 @@ const CreateNoticeCard = ({ nbid, uid, getNotices }) => {
             body: newNotice.body
         }).then((res) => {
             console.log(res.data);
+            setSnackBar({message:"Created new Notice",severity:"success"})
             getNotices()
         })
     }

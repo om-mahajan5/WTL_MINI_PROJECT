@@ -8,14 +8,11 @@ import { useContext } from 'react';
 const SideBar = (props) => {
     return (
         <List>
-
             <SideBarListItem noticeBoard={{ name: "home", nbid: "home", uid: null }} userUid={props.userData.uid} key="home" />
             {
                 props.userData.noticeBoards.map(
                     (noticeBoard) => {
-                        let owner = noticeBoard.uid
-                        // currentlySelected = true
-                        console.log(noticeBoard.uid);
+                        // console.log(noticeBoard.uid);
                         return <SideBarListItem noticeBoard={noticeBoard} userUid={props.userData.uid} key={noticeBoard.nbid} />
                     }
                 )

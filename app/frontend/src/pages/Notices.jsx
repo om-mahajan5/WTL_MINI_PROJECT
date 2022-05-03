@@ -8,12 +8,9 @@ import LinkIcon from '@mui/icons-material/Link';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import CreateNoticeCard from "./CreateNoticeCard";
 const Notices = ({ notice }) => {
-    const { currentlySelectedNoticeBoard, userData } = useContext(DataContext)
+    const { setSnackBar,currentlySelectedNoticeBoard, userData } = useContext(DataContext)
     const [notices, setNotices] = useState([])
     const [shareMenuState, setShareMenuState] = useState(false)
-    const inputValueChange = (event) => {
-
-    }
 
 
     const leaveNoticeBoard = (uid, nbid) => {
@@ -23,7 +20,9 @@ const Notices = ({ notice }) => {
                 uid: uid,
                 nbid: nbid
             }
-        )
+        ).then((response)=>{
+            setSnackBar({message:"Left the NoticeBoard",severity:"success"})
+        })
     }
 
     function getNotices(nbid) {
@@ -72,7 +71,7 @@ const Notices = ({ notice }) => {
                             </CardActions>
                         </Card>
                         {
-                            userData.uid==notice.uid ? <CreateNoticeCard nbid={currentlySelectedNoticeBoard} uid={userData.uid} getNotices={getNotices}/> : null
+                            userData.uid == notice.uid ? <CreateNoticeCard nbid={currentlySelectedNoticeBoard} uid={userData.uid} getNotices={getNotices} /> : null
 
                         }
                         {

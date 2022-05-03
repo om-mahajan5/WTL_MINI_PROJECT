@@ -1,44 +1,39 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { auth } from '../Firebase/firebase';
 
 import { DataContext, UserContext } from '../DataContext';
 import axios from 'axios';
 import SignOutButton from './SignOut';
-import { signOut } from 'firebase/auth';
-import { AppBar, Box, IconButton, Toolbar, Typography, SwipeableDrawer, List, ListItemText, Grid, Container, ListItem, ListItemButton, ListItemIcon, Paper, Avatar, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Box, Toolbar, Typography, Grid, Container, Avatar, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Snackbar, Alert } from '@mui/material';
 import SideBar from './SideBar';
-import Notice from './Notice';
 import Notices from './Notices';
 import LandingPage from './LandingPage';
-import getUserData from './getUserData';
 function DashBoard() {
 
-    // const { userDetails, setUserDetails } = useContext(UserContext);
-    const userDetails = {
-        "user": { "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2" }
-    }
-    const [noticeBoardOpen, setNoticeBoardOpen] = useState(false);
+    const { userDetails, setUserDetails } = useContext(UserContext);
+    const [userData, setUserData] = useState(undefined)
+
+    // const userDetails = {
+    //     "user": { "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2" }
+    // }
+    const [snackBar, setSnackBar] = useState(false)
     const [notices, setNotices] = useState([]);
-    const [userData, setUserData] = useState({
-        "name": "Om Mahajan",
-        "timecreated": "2022-04-29T20:36:16.004598",
-        "uid": "1234",
-        "noticeBoards": [
-            {
-                "name": "First NoticeBoard",
-                "nbid": "BEECCA",
-                "timecreated": "2022-04-29T20:36:34.071452"
-            }
-        ]
-    });
+    // const [userData, setUserData] = useState({
+    //     "name": "",
+    //     "timecreated": "",
+    //     "uid": "",
+    //     "noticeBoards": [
+    //         {
+    //             "name": "",
+    //             "nbid": "",
+    //             "timecreated": ""
+    //         }
+    //     ]
+    // });
     const [currentlySelectedNoticeBoard, setCurrentlySelectedNoticeBoard] = useState("home")
     const [joinNoticeBoardState, setJoinNoticeBoardState] = useState(false)
     let urlParams = new URLSearchParams(window.location.search);
-
     useEffect(
         () => {
-
             if (
                 urlParams.get("nbid") &&
                 userData.noticeBoards.filter(
@@ -50,12 +45,18 @@ function DashBoard() {
                 setJoinNoticeBoardState(true)
             }
             else {
-                console.log("clear");
+                console.log("No URL Params");
             }
-            console.log("hi");
-            axios.get(`http://localhost:5000/api/user?uid=${userDetails.user.uid}`)
+
+        }, [userData]
+    )
+    useEffect(
+        () => {
+
+            console.log(userDetails);
+            axios.get(`http://localhost:5000/api/user?uid=${userDetails.uid}`)
                 .then((response) => {
-                    console.log("Fetched UserData", userDetails.user.uid, response.data);
+                    console.log("Fetched UserData", userDetails.uid, response.data);
                     setUserData(response.data);
                 })
         }, []
@@ -63,7 +64,7 @@ function DashBoard() {
 
 
     return (
-        <DataContext.Provider value={{ noticeBoardOpen, setNoticeBoardOpen, notices, setNotices, userData, setUserData, currentlySelectedNoticeBoard, setCurrentlySelectedNoticeBoard, urlParams }}>
+        <DataContext.Provider value={{  setSnackBar, notices, setNotices, userData, setUserData, currentlySelectedNoticeBoard, setCurrentlySelectedNoticeBoard, urlParams }}>
             <Dialog open={joinNoticeBoardState}>
                 <DialogTitle>
                     Do you want to join this noticeBoard?
@@ -76,7 +77,6 @@ function DashBoard() {
                 <DialogActions>
                     <Button onClick={() => setJoinNoticeBoardState(false)}>Join</Button>
                     <Button onClick={() => setJoinNoticeBoardState(false)}> Cancel</Button>
-
                 </DialogActions>
             </Dialog>
             <Box sx={{ flexGrow: 1 }}  >
@@ -86,20 +86,25 @@ function DashBoard() {
                             Online Dashboard
                         </Typography>
                         <Avatar src={userDetails.PhotoUrl} />
-                        <Typography variant='h5' >{userData.name}</Typography>
+                        {userData ? <Typography variant='h5' >{userData.name}</Typography> : "LOGIN ERROR"}
                         <SignOutButton />
                     </Toolbar>
                 </AppBar>
                 <Container>
                     <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
                         <Grid item xs={3}>
-                            {userData ? <SideBar userData={userData} /> : null}
+                            {userData ? <SideBar userData={userData} /> : "LOGIN ERROR"}
                         </Grid>
                         <Grid item sx={{ flexGrow: 1 }}>
-                            {currentlySelectedNoticeBoard == 'home' ? <LandingPage /> : <Notices notice={userData.noticeBoards.filter(noticeBoard => noticeBoard.nbid == currentlySelectedNoticeBoard)[0]} />}
+                            {currentlySelectedNoticeBoard == 'home' ? <LandingPage /> : userData ? <Notices notice={userData.noticeBoards.filter(noticeBoard => noticeBoard.nbid == currentlySelectedNoticeBoard)[0]} /> : "LOGIN ERROR"}
                         </Grid>
                     </Grid>
                 </Container>
+                <Snackbar open={snackBar} autoHideDuration={6000} onClose={() => setSnackBar(false)}>
+                    <Alert onClose={() => setSnackBar(false)} severity={snackBar.severity} sx={{ width: '100%' }}>
+                        {snackBar.message}
+                    </Alert>
+                </Snackbar>
             </Box >
         </DataContext.Provider>
     )
@@ -107,62 +112,5 @@ function DashBoard() {
 
 
 }
-
-
-
-// function GroupContainer(props) {
-//     const { groups, setGroups } = useContext(DataContext)
-//     return (
-//         <div className={styles.groupContainer}>
-
-//             {groups.map((item) => {
-//                 return (<GroupComponent id={item['id']} name={item['title']} />)
-//             })}
-
-//         </div>
-//     )
-// }
-// function GroupComponent(props) {
-//     const { noticeBoardOpen, setNoticeBoardOpen, notices, setNotices } = useContext(DataContext);
-//     const { id, name } = props;
-//     return (
-//         <div onClick={() => {
-//             axios.get('https://jsonplaceholder.typicode.com/posts').then((res) => {
-//                 console.log(res.data);
-//                 setNotices(res.data);
-//                 setNoticeBoardOpen(true)
-//             })
-//         }} className={styles.groupComponent} >
-//             <h3>{name}</h3>
-
-//         </div>
-//     )
-// }
-
-// function NoticeContainer(props) {
-
-//     const { noticeBoardOpen, setNoticeBoardOpen, notices, setNotices } = useContext(DataContext);
-//     return (
-//         <div>
-//             <button onClick={() => { setNoticeBoardOpen(false) }} >x</button>
-//             {notices.map((item) => {
-//                 return (<NoticeComponent id={item['id']} title={item['title']} content={item['body']} timestamp={item['timestamp']} />)
-//             })}
-//         </div>
-//     )
-// }
-
-// function NoticeComponent(props) {
-
-//     const { id, content, title, timestamp } = props;
-//     return (
-//         <div className={styles.noticeComponent}>
-//             <h3>{title}</h3>
-//             <p> {content} </p>
-//         </div>
-//     )
-// }
-
-
 
 export default DashBoard
