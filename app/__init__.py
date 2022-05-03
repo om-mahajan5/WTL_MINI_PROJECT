@@ -34,8 +34,8 @@ def create_app(test_config=None):
     api.add_resource(delete_notice,"/api/delete-notice")
 
     @app.errorhandler(404)
-    def error():
-        return send_from_directory(app.static_folder, "index.html")
+    def error(e):
+        return send_from_directory(app.static_folder, "index.html"),404
 
     @app.route("/")
     def root():
