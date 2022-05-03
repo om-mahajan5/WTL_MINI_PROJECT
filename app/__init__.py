@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, render_template
 
 from app.api.get_notices import get_notice_list
 from .utils.sqlalchemy_object import db, ma
@@ -35,6 +35,7 @@ def create_app(test_config=None):
 
     @app.errorhandler(404)
     def error(e):
+        return render_template("index.html")
         return 'send_from_directory(app.static_folder, "index.html"),404'
 
     @app.route("/")
