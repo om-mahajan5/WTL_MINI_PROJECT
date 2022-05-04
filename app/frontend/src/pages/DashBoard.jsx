@@ -56,11 +56,12 @@ function DashBoard() {
     const [currentlySelectedNoticeBoard, setCurrentlySelectedNoticeBoard] = useState("home")
     const [joinNoticeBoardState, setJoinNoticeBoardState] = useState(false)
     let urlParams = new URLSearchParams(window.location.search);
+    let urlParamNbid = urlParams.get("nbid")
     useEffect(
         () => {
-            if (urlParams.get("nbid")) {
-                if (userData.noticeBoards.filter(noticeBoard => noticeBoard.nbid == urlParams.get("nbid")).length) {
-                    setCurrentlySelectedNoticeBoard(urlParams.get("nbid"))
+            if (urlParamNbid) {
+                if (userData.noticeBoards.filter(noticeBoard => noticeBoard.nbid == urlParamNbid).length) {
+                    setCurrentlySelectedNoticeBoard(urlParamNbid)
                 }
                 else {
                     setJoinNoticeBoardState(true)
@@ -105,7 +106,7 @@ function DashBoard() {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        You are about to join a NoticeBoad with ID: {urlParams.get("nbid")}
+                        You are about to join a NoticeBoad with ID: {urlParamNbid}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
