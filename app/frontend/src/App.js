@@ -12,6 +12,8 @@ function App() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setUserDetails(user)
+    }else{
+      setUserDetails(null)
     }
   })
 
