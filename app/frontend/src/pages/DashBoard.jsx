@@ -11,48 +11,48 @@ import hostUrl from './utils/hostUrl'
 
 function DashBoard() {
 
-    // const { userDetails, setUserDetails } = useContext(UserContext);
-    // const [userData, setUserData] = useState(undefined)
+    const { userDetails, setUserDetails } = useContext(UserContext);
+    const [userData, setUserData] = useState(undefined)
     const [userModal, setUserModal] = useState(false)
-    const userDetails = {
-        "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2"
-    }
+    // const userDetails = {
+    //     "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2"
+    // }
     const [snackBar, setSnackBar] = useState(false)
     const [notices, setNotices] = useState([]);
     
-    const [userData, setUserData] = useState(
-        {
-            "name": "Om Mahajan",
-            "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2",
-            "timecreated": "2022-04-30T07:22:58.030823",
-            "noticeBoards": [
-                {
-                    "name": "not my nb",
-                    "timecreated": "2022-04-30T08:21:18.371402",
-                    "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2",
-                    "nbid": "BEAEFF"
-                },
-                {
-                    "name": "First NoticeBoard",
-                    "timecreated": "2022-04-29T20:36:34.071452",
-                    "uid": "1234",
-                    "nbid": "BEECCA"
-                },
-                {
-                    "name": "my boaring notice board",
-                    "timecreated": "2022-04-30T18:16:49.552640",
-                    "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2",
-                    "nbid": "BFDFBC"
-                },
-                {
-                    "name": "My Notice Board",
-                    "timecreated": "2022-04-30T08:20:42.041903",
-                    "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2",
-                    "nbid": "CADBCC"
-                }
-            ]
-        }
-    );
+    // const [userData, setUserData] = useState(
+    //     {
+    //         "name": "Om Mahajan",
+    //         "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2",
+    //         "timecreated": "2022-04-30T07:22:58.030823",
+    //         "noticeBoards": [
+    //             {
+    //                 "name": "not my nb",
+    //                 "timecreated": "2022-04-30T08:21:18.371402",
+    //                 "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2",
+    //                 "nbid": "BEAEFF"
+    //             },
+    //             {
+    //                 "name": "First NoticeBoard",
+    //                 "timecreated": "2022-04-29T20:36:34.071452",
+    //                 "uid": "1234",
+    //                 "nbid": "BEECCA"
+    //             },
+    //             {
+    //                 "name": "my boaring notice board",
+    //                 "timecreated": "2022-04-30T18:16:49.552640",
+    //                 "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2",
+    //                 "nbid": "BFDFBC"
+    //             },
+    //             {
+    //                 "name": "My Notice Board",
+    //                 "timecreated": "2022-04-30T08:20:42.041903",
+    //                 "uid": "YfatNdX8qOh6fZHZqATwAVtOJgR2",
+    //                 "nbid": "CADBCC"
+    //             }
+    //         ]
+    //     }
+    // );
     const [currentlySelectedNoticeBoard, setCurrentlySelectedNoticeBoard] = useState("home")
     const [joinNoticeBoardState, setJoinNoticeBoardState] = useState(false)
     let urlParams = new URLSearchParams(window.location.search);

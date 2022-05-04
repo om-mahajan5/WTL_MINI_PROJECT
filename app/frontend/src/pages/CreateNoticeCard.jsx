@@ -33,7 +33,6 @@ const CreateNoticeCard = ({ nbid, uid, getNotices }) => {
             <CardHeader title="Create Notice" />
             <CardContent>
                 <Stack spacing={1}>
-
                     <TextField fullWidth required label="Title" onChange={(e) => { newNotice.title = e.target.value }} />
                     <TextField fullWidth multiline label="Body" required rows={4} onChange={(e) => { newNotice.body = e.target.value }} />
                 </Stack>
