@@ -1,13 +1,51 @@
 import { Button, Card, CardContent, CardHeader, List, Stack, TextField } from "@mui/material"
 import { Box } from "@mui/system"
+import axios from "axios"
 import { useContext, useState } from "react"
 import { DataContext } from "../DataContext"
-import createNoticeBoard from "./createNoticeBoard"
-import joinNoticeBoard from "./joinNoticeBoard"
+import hostUrl from "./utils/hostUrl"
+
 const LandingPage = () => {
     const [noticeBoardName, setNoticeBoardName] = useState(null)
     const [noticeBoardCode, setNoticeBoardCode] = useState(null)
-    const { userData, urlParams } = useContext(DataContext)
+    const { userData, urlParams, setSnackBar, setUserData } = useContext(DataContext)
+
+    const joinNoticeBoard = (uid, nbid) => {
+        axios.post(
+            `${hostUrl}/api/join-noticeboard`,
+            {
+                uid: uid,
+                nbid: nbid
+            }
+        ).then(
+            (response) => {
+                setSnackBar({ message: `Joined NoticeBoard : ${nbid}`, severity: "success" })
+                console.log("JOINED NOTICE BOARD",response.data)
+                let newUserData = userData
+                newUserData.noticeBoards.push(response.data)
+                setUserData(newUserData)
+                return response.data
+            }
+        )
+    }
+
+    function createNoticeBoard(uid, name) {
+        axios.post(
+            `${hostUrl}/api/create-noticeboard`,
+            {
+                uid: uid,
+                name: name
+            }
+        ).then((response) => {
+            console.log("CREATED NOTICEBOARD",response.data);
+            setSnackBar({ message: `Created NoticeBoard : ${name}`, severity: "success" })
+            let newUserData = userData
+            newUserData.noticeBoards.push(response.data)
+            setUserData(newUserData)
+            return response.data
+        }
+        )
+    }
     return (
         <Box>
             <List>

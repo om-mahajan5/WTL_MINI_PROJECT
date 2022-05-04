@@ -1,6 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardHeader, IconButton, Tooltip, Typography } from "@mui/material";
 import React, { useContext } from "react";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import axios from "axios";
 import LinkIcon from '@mui/icons-material/Link';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
@@ -8,13 +8,23 @@ import { DataContext } from "../DataContext";
 import hostUrl from './utils/hostUrl'
 
 const Notice = (props) => {
-    const { currentlySelectedNoticeBoard, userData } = useContext(DataContext)
+    const { setSnackBar, currentlySelectedNoticeBoard, userData, notices, setNotices } = useContext(DataContext)
     const deleteNotice = (nid) => {
         axios.post(
             `${hostUrl}/api/delete-notice`,
             {
                 nid: nid
             }
+        ).then((response) => {
+            if (response.status == '200') {
+                setSnackBar({ message: "Deleted notice sucessfully!", severity: "success" })
+                let newNotices = notices
+                newNotices.filter(notice=>notice.nid!=nid)
+                setNotices(newNotices)
+            } else {
+                setSnackBar({ message: "Left the NoticeBoard", severity: "error" })
+            }
+        }
         )
     }
 
@@ -24,11 +34,11 @@ const Notice = (props) => {
             <CardContent>
                 {props.notice.body}
             </CardContent>
-            <CardActions>
+            <CardActions sx={{ justifyContent: 'flex-end' }}>
                 {userData.uid == props.notice.uid ?
-                    < Tooltip title="delete">
+                    < Tooltip title="delete" sx={{ left: 'flex-start' }}>
                         <IconButton color="error" onClick={() => deleteNotice(props.notice.nid)}>
-                            <DeleteIcon />
+                            <DeleteOutlineOutlinedIcon />
                         </IconButton>
                     </Tooltip>
                     : null}

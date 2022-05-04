@@ -33,7 +33,7 @@ def create_app(test_config=None):
     api.add_resource(join_noticeboard_api, "/api/join-noticeboard")
     api.add_resource(leave_noticeboard_api,"/api/leave-noticeboard")
     api.add_resource(delete_notice,"/api/delete-notice")
-
+    api.add_resource(delete_noticeoard_api,"/api/delete-noticeboard")
     @app.errorhandler(404)
     def error(e):
         return render_template("index.html")
