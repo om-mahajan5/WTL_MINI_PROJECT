@@ -19,7 +19,7 @@ function DashBoard() {
     // }
     const [snackBar, setSnackBar] = useState(false)
     const [notices, setNotices] = useState([]);
-    
+
     // const [userData, setUserData] = useState(
     //     {
     //         "name": "Om Mahajan",
@@ -58,15 +58,13 @@ function DashBoard() {
     let urlParams = new URLSearchParams(window.location.search);
     useEffect(
         () => {
-            if (
-                urlParams.get("nbid") &&
-                userData.noticeBoards.filter(
-                    noticeBoard => noticeBoard.nbid == urlParams.get("nbid")).length) {
-                setCurrentlySelectedNoticeBoard(urlParams.get("nbid"))
-            }
-            else if (urlParams.get("nbid") && userData.noticeBoards.filter(
-                noticeBoard => noticeBoard.nbid == urlParams.get("nbid")).length == 0) {
-                setJoinNoticeBoardState(true)
+            if (urlParams.get("nbid")) {
+                if (userData.noticeBoards.filter(noticeBoard => noticeBoard.nbid == urlParams.get("nbid")).length) {
+                    setCurrentlySelectedNoticeBoard(urlParams.get("nbid"))
+                }
+                else {
+                    setJoinNoticeBoardState(true)
+                }
             }
             else {
                 console.log("No URL Params");
