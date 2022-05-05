@@ -61,7 +61,7 @@ function DashBoard() {
         () => {
             let urlParams = new URLSearchParams(window.location.search);
             let urlParamNbid = urlParams.get("nbid")        
-            if (urlParamNbid) {
+            if (urlParams.has('nbid')) {
                 if (userData.noticeBoards.filter(noticeBoard => noticeBoard.nbid == urlParamNbid).length) {
                     setCurrentlySelectedNoticeBoard(urlParamNbid)
                 }
